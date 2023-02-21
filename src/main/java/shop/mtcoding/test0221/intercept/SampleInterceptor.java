@@ -2,10 +2,13 @@ package shop.mtcoding.test0221.intercept;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
+import shop.mtcoding.test0221.model.User;
 
 @Component
 public class SampleInterceptor implements HandlerInterceptor {
@@ -13,8 +16,15 @@ public class SampleInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-        // 컨트롤러 실행 전에 수행될 코드 작성
-        return true; // true 반환 시, 다음 단계 수행 / false 반환 시, 컨트롤러 실행 중단
+        HttpSession session = request.getSession();
+        User principal = (User) session.getAttribute("principal");
+
+        if (principal == null) {
+            // 로그인되지 않은 사용자는 로그인 페이지로 이동
+            response.sendRedirect("/loginForm");
+            return false;
+        }
+        return true;
     }
 
     @Override

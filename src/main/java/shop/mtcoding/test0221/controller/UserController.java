@@ -19,6 +19,7 @@ public class UserController {
 
         @Autowired
         private HttpSession session;
+
         @Autowired
         private UserRepository userRepository;
 

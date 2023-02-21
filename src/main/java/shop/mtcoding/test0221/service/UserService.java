@@ -9,28 +9,36 @@ import shop.mtcoding.test0221.dto.user.UserReq.LoginReqDto;
 import shop.mtcoding.test0221.handler.ex.CustomException;
 import shop.mtcoding.test0221.model.User;
 import shop.mtcoding.test0221.model.UserRepository;
+import shop.mtcoding.test0221.util.PasswordEncoder;
 
 @Service
 public class UserService {
 
         @Autowired
-        public UserRepository userRepository;
+        private UserRepository userRepository;
 
         @Transactional
         public void 회원가입(JoinReqDto joinReqDto) {
-                User sameUser = userRepository.findByUsername(joinReqDto.getUsername());
+                // String encodedPassword = passwordEncoder.encode(joinReqDto.getPassword()); //
+                // 비밀번호 인코딩
+                User sameUser = userRepository.findByUsername(joinReqDto.getUsername()); // 중복 회원 검사
                 if (sameUser != null) {
                         throw new CustomException("동일한 username이 존재합니다");
                 }
+                PasswordEncoder passwordEncoder = new PasswordEncoder();
+                // System.out.println("비밀번호 : " + joinReqDto.);
                 int result = userRepository.insert(joinReqDto.getUsername(), joinReqDto.getPassword(),
                                 joinReqDto.getEmail());
                 if (result != 1) {
-                        throw new CustomException("회원가입실패");
+                        throw new CustomException("회원가입 실패");
                 }
         }
 
         @Transactional(readOnly = true)
         public User 로그인(LoginReqDto loginReqDto) {
+                // String encodedPassword = passwordEncoder.encode(loginReqDto.getPassword());
+                // // 비밀번호 인코딩
+                User sameUser = userRepository.findByUsername(loginReqDto.getUsername()); // 중복 회원 검사
                 User principal = userRepository.findByUsernameAndPassword(
                                 loginReqDto.getUsername(), loginReqDto.getPassword());
                 if (principal == null) {
