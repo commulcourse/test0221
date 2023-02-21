@@ -8,17 +8,11 @@
                     <div class="d-flex form-group mb-2">
                         <input type="text" name="username" class="form-control" placeholder="Enter username"
                             id="username">
-                        <button type="button" class="badge bg-secondary ms-2">중복확인</button>
                     </div>
 
                     <div class="form-group mb-2">
                         <input type="password" name="password" class="form-control" placeholder="Enter password"
                             id="password">
-                    </div>
-
-                    <div class="form-group mb-2">
-                        <input type="password" class="form-control" placeholder="Enter passwordCheck"
-                            id="passwordCheck">
                     </div>
 
                     <div class="form-group mb-2">
